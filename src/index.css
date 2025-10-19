@@ -1,0 +1,386 @@
+/* ========== Theme tokens ========== */
+:root {
+    --bg: #0b1020;
+    --surface: rgba(255, 255, 255, 0.06);
+    --surface-strong: rgba(255, 255, 255, 0.12);
+    --text: #e6e9f2;
+    --muted: #b6bed3;
+    --primary: #5b8cff;
+    --primary-600: #4a73d6;
+    --accent: #22d3ee;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --ring: #a3d3ff;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --shadow-1: 0 8px 24px rgba(0, 0, 0, 0.25);
+    --shadow-2: 0 16px 40px rgba(0, 0, 0, 0.35);
+    --grid: 12px;
+    --trans: 180ms cubic-bezier(.2,.8,.2,1);
+  }
+  /* Optional light theme */
+  [data-theme="light"] {
+    --bg: #f5f7fb;
+    --surface: rgba(0, 10, 40, 0.04);
+    --surface-strong: rgba(0, 10, 40, 0.08);
+    --text: #0c1537;
+    --muted: #33426a;
+    --primary: #335cff;
+    --primary-600: #2c4dd6;
+    --accent: #0ea5e9;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #d97706;
+    --ring: #335cff;
+  }
+  /* Respect system preference by default */
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      --bg: #f5f7fb;
+      --surface: rgba(0, 10, 40, 0.04);
+      --surface-strong: rgba(0, 10, 40, 0.08);
+      --text: #0c1537;
+      --muted: #33426a;
+      --primary: #335cff;
+      --primary-600: #2c4dd6;
+      --accent: #0ea5e9;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --ring: #335cff;
+    }
+  }
+  
+  /* ========== Base reset ========== */
+  *,
+  *::before,
+  *::after { box-sizing: border-box; }
+  html, body, #root { height: 100%; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--text);
+    background:
+      radial-gradient(1200px 800px at -10% -10%, rgba(91, 140, 255, 0.14), transparent 60%),
+      radial-gradient(900px 600px at 110% 0%, rgba(34, 211, 238, 0.12), transparent 55%),
+      linear-gradient(180deg, var(--bg), #060913 70%);
+    letter-spacing: 0.2px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Focus visibility for accessibility */
+  :where(button, a, input, select, textarea) {
+    outline: none;
+  }
+  :where(button, a, input, select, textarea):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--ring) 25%, transparent);
+    border-radius: 10px;
+    transition: outline-color var(--trans), box-shadow var(--trans);
+  }
+  
+  /* ========== App shell ========== */
+  .App {
+    max-width: 880px;
+    margin: 48px auto;
+    padding: calc(var(--grid) * 2);
+    backdrop-filter: blur(14px) saturate(120%);
+    background: linear-gradient(180deg, var(--surface), transparent 120%);
+    border: 1px solid var(--surface-strong);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-1);
+  }
+  h1 {
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 20px;
+    letter-spacing: 0.3px;
+    background: linear-gradient(90deg, var(--text), color-mix(in oklab, var(--text) 70%, var(--accent) 30%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* ========== Task form ========== */
+  .task-form {
+    display: grid;
+    gap: calc(var(--grid) * 1.25);
+    padding: calc(var(--grid) * 1.5);
+    background: linear-gradient(180deg, var(--surface), transparent 110%);
+    border: 1px solid var(--surface-strong);
+    border-radius: var(--radius);
+  }
+  .task-form > div:first-child {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--grid);
+  }
+  .task-form input[type="text"] {
+    padding: 14px 16px;
+    border: 1px solid var(--surface-strong);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+    transition: border-color var(--trans), box-shadow var(--trans), background var(--trans);
+  }
+  .task-form input[type="text"]::placeholder {
+    color: color-mix(in oklab, var(--muted) 75%, var(--text) 25%);
+  }
+  .task-form input[type="text"]:focus {
+    border-color: color-mix(in oklab, var(--primary) 60%, white 10%);
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--primary) 22%, transparent);
+    background: rgba(255,255,255,0.06);
+  }
+  .task-form button[type="submit"] {
+    padding: 14px 18px;
+    border: 1px solid color-mix(in oklab, var(--primary) 60%, black 10%);
+    border-radius: var(--radius-sm);
+    background: linear-gradient(180deg, var(--primary), var(--primary-600));
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: transform var(--trans), box-shadow var(--trans), filter var(--trans);
+    box-shadow: 0 8px 18px color-mix(in oklab, var(--primary) 26%, transparent);
+  }
+  .task-form button[type="submit"]:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+  }
+  .task-form button[type="submit"]:active {
+    transform: translateY(0);
+  }
+  .task-form label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .task-form select {
+    padding: 10px 12px;
+    border: 1px solid var(--surface-strong);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    transition: border-color var(--trans), box-shadow var(--trans);
+  }
+  .task-form select:focus {
+    border-color: color-mix(in oklab, var(--accent) 60%, white 10%);
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 22%, transparent);
+  }
+  
+  /* ========== Task list ========== */
+  .task-list {
+    margin-top: 18px;
+    display: grid;
+    gap: 12px;
+  }
+  .task-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid var(--surface-strong);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
+  }
+  .task-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+    border-color: color-mix(in oklab, var(--primary) 18%, var(--surface-strong));
+  }
+  .task-info {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 10px 12px;
+    align-items: center;
+  }
+  .task-info p {
+    margin: 0;
+    font-weight: 550;
+    color: var(--text);
+  }
+  .task-info p.completed {
+    color: color-mix(in oklab, var(--muted) 80%, var(--text) 20%);
+    text-decoration: line-through wavy 1.5px;
+    text-decoration-color: color-mix(in oklab, var(--muted) 60%, transparent);
+  }
+  .priority,
+  .category {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    border: 1px solid var(--surface-strong);
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+  }
+  .priority[data-value="high"],
+  .priority:where(.high),
+  .priority:has(+ .category) { /* safe no-op for legacy */
+    border-color: color-mix(in oklab, var(--danger) 50%, var(--surface-strong));
+    color: color-mix(in oklab, var(--danger) 70%, white 5%);
+  }
+  .priority.medium {
+    border-color: color-mix(in oklab, var(--warning) 45%, var(--surface-strong));
+    color: color-mix(in oklab, var(--warning) 70%, white 5%);
+  }
+  .priority.low {
+    border-color: color-mix(in oklab, var(--success) 45%, var(--surface-strong));
+    color: color-mix(in oklab, var(--success) 70%, white 5%);
+  }
+  
+  /* Actions */
+  .task-actions {
+    display: inline-flex;
+    gap: 10px;
+  }
+  .complete-btn,
+  .delete-btn {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--surface-strong);
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    cursor: pointer;
+    transition: transform var(--trans), background var(--trans), border-color var(--trans), box-shadow var(--trans);
+  }
+  .complete-btn:hover {
+    background: color-mix(in oklab, var(--success) 18%, rgba(255,255,255,0.05));
+    border-color: color-mix(in oklab, var(--success) 40%, var(--surface-strong));
+    box-shadow: 0 8px 18px color-mix(in oklab, var(--success) 24%, transparent);
+  }
+  .delete-btn:hover {
+    background: color-mix(in oklab, var(--danger) 16%, rgba(255,255,255,0.05));
+    border-color: color-mix(in oklab, var(--danger) 40%, var(--surface-strong));
+    box-shadow: 0 8px 18px color-mix(in oklab, var(--danger) 24%, transparent);
+  }
+  
+  /* ========== Progress tracker ========== */
+  .progress-tracker {
+    margin-top: 18px;
+    padding: 14px;
+    border: 1px solid var(--surface-strong);
+    border-radius: var(--radius-sm);
+    background: linear-gradient(180deg, var(--surface), transparent 120%);
+  }
+  .progress-tracker p {
+    margin: 0 0 10px;
+    color: var(--muted);
+  }
+  .progress-bar {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.09), rgba(0,0,0,0.12)),
+      color-mix(in oklab, var(--surface-strong) 70%, transparent);
+    overflow: hidden;
+    border: 1px solid var(--surface-strong);
+  }
+  .progress-bar > div {
+    height: 100%;
+    border-radius: 999px;
+    background:
+      linear-gradient(90deg, var(--accent), var(--primary) 55%, var(--success));
+    transition: width 360ms cubic-bezier(.2,.8,.2,1);
+    position: relative;
+    isolation: isolate;
+  }
+  .progress-bar > div::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(45deg,
+        rgba(255,255,255,0.22) 0 14px,
+        rgba(255,255,255,0.04) 14px 28px);
+    mix-blend-mode: overlay;
+    opacity: 0.45;
+    animation: shimmer 2.2s linear infinite;
+  }
+  @keyframes shimmer {
+    from { transform: translateX(-20%); }
+    to   { transform: translateX(20%); }
+  }
+  
+  /* ========== Utility ========== */
+  button {
+    font: inherit;
+  }
+  .hidden { display: none !important; }
+  
+  /* Responsive tweaks */
+  @media (max-width: 560px) {
+    .App { padding: 14px; }
+    .task-form > div:first-child { grid-template-columns: 1fr; }
+    .task-info { grid-template-columns: 1fr auto; }
+  }
+  
+  /* Clear All button styles */
+.clear-btn {
+    --btn-bg: color-mix(in oklab, var(--danger) 14%, rgba(255,255,255,0.06));
+    --btn-border: color-mix(in oklab, var(--danger) 30%, var(--surface-strong));
+    --btn-glow: color-mix(in oklab, var(--danger) 20%, transparent);
+  
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--btn-border);
+    background: linear-gradient(180deg, var(--btn-bg), rgba(255,255,255,0.03));
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    box-shadow: 0 8px 18px var(--btn-glow);
+    transition:
+      transform 180ms cubic-bezier(.2,.8,.2,1),
+      box-shadow 180ms cubic-bezier(.2,.8,.2,1),
+      background 180ms cubic-bezier(.2,.8,.2,1),
+      border-color 180ms cubic-bezier(.2,.8,.2,1);
+  }
+  
+  .clear-btn:hover {
+    --btn-bg: color-mix(in oklab, var(--danger) 20%, rgba(255,255,255,0.08));
+    --btn-border: color-mix(in oklab, var(--danger) 45%, var(--surface-strong));
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px color-mix(in oklab, var(--danger) 26%, transparent);
+  }
+  
+  .clear-btn:active {
+    transform: translateY(0);
+    filter: brightness(0.98);
+  }
+  
+  /* Strong, visible keyboard focus ring */
+  .clear-btn:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--danger) 65%, white 10%);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--danger) 22%, transparent);
+    border-color: color-mix(in oklab, var(--danger) 60%, var(--surface-strong));
+  }
+  
+  /* Optional stronger destructive variant */
+  .clear-btn--solid {
+    background: linear-gradient(180deg, color-mix(in oklab, var(--danger) 70%, #fff 0%), var(--danger));
+    color: white;
+    border-color: color-mix(in oklab, var(--danger) 70%, black 10%);
+  }
+  .clear-btn--solid:hover {
+    filter: brightness(1.02);
+    box-shadow: 0 12px 26px color-mix(in oklab, var(--danger) 36%, transparent);
+  }
+  
